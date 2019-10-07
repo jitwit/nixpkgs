@@ -21,10 +21,10 @@ stdenv.mkDerivation {
   '';
 
   meta = {
-    description = "Various numerical procedures written while solving project euler problems";
-    homepage = https://github.com/jitwit/chez-euler/;
+    description = "Very small subset of Kiselyov's sxml framework";
+    homepage = https://github.com/jitwit/sxml-mini/;
     maintainers = [ stdenv.lib.maintainers.jitwit ];
-    license = stdenv.lib.licenses.gpl3;
+    license = stdenv.lib.licenses.free;
   };
 
 }

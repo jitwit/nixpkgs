@@ -7462,6 +7462,8 @@ in
 
   chez-sxml-mini = callPackage ../development/chez-modules/chez-sxml-mini { };
 
+  chez-packrat = callPackage ../development/chez-modules/chez-packrat { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 

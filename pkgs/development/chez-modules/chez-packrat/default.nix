@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/chez-packrat.git";
-    rev = "3ad804d6401bc9942005337f18acb93d98b77ff9";
-    sha256 = "1k65nzccqw4qw48rvjbfxbv31cbwbnyxsdz0w0a1ycjq0r1b3z0q";
+    rev = "56bbbd03d17103b43f3166cccf9649b66001981f";
+    sha256 = "0ljlv0hiyzvj9xjr05czsmj3cjp50p03z1b38z26hlbl7kl29s7r";
   };
 
   buildInputs = [ chez chez-srfi ];

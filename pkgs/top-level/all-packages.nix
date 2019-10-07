@@ -7460,6 +7460,8 @@ in
 
   chez-euler = callPackage ../development/chez-modules/chez-euler { };
 
+  chez-sxml-mini = callPackage ../development/chez-modules/chez-sxml-mini { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 

@@ -21,8 +21,6 @@ stdenv.mkDerivation {
     make install PREFIX=$out CHEZ=${chez}/bin/scheme
   '';
 
-  doCheck = false;
-
   meta = {
     description = "This is a MIT/GNU Scheme compatibility library for Chez Scheme";
     homepage = https://github.com/fedeinthemix/chez-mit/;

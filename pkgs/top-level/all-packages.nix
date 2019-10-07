@@ -7456,6 +7456,8 @@ in
 
   chez-scmutils = callPackage ../development/chez-modules/chez-scmutils { };
 
+  chez-hemlock = callPackage ../development/chez-modules/chez-hemlock { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 

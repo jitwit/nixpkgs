@@ -7458,6 +7458,8 @@ in
 
   chez-hemlock = callPackage ../development/chez-modules/chez-hemlock { };
 
+  chez-euler = callPackage ../development/chez-modules/chez-euler { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 

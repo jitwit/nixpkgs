@@ -5,9 +5,9 @@ stdenv.mkDerivation {
   version = "1.0";
 
   src = fetchgit {
-    url = "https://github.com/fedeinthemix/chez-mit.git";
-    rev = "68f3d7562e77f694847dc74dabb5ecbd106cd6be";
-    sha256 = "0c7i3b6i90xk96nmxn1pc9272a4yal4v40dm1a4ybdi87x53zkk0";
+    url = "https://github.com/jitwit/chez-mit.git";
+    rev = "921ff50d770ff633cbbe846de38934c94db13500";
+    sha256 = "1fivd4iwya3w36yzjz6mc7j75xcqaj5fajcq8ja48dfkjc2ldf5y";
   };
 
   buildInputs = [ chez chez-srfi ];

@@ -7458,6 +7458,10 @@ in
 
   chez-hemlock = callPackage ../development/chez-modules/chez-hemlock { };
 
+  chez-charset = callPackage ../development/chez-modules/chez-charset { };
+
+  chez-brzozowski = callPackage ../development/chez-modules/chez-brzozowski { };
+
   chez-euler = callPackage ../development/chez-modules/chez-euler { };
 
   chez-sxml-mini = callPackage ../development/chez-modules/chez-sxml-mini { };

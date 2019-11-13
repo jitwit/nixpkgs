@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/chez-brzozowski.git";
-    rev = "cfdac74c15209a6db262cb1f667a36084d706992";
-    sha256 = "14gmm7fl20093r8v7mwiqm4vss9x14k92v1sdy4lmny1mrah5vbw";
+    rev = "ace9113dc857979a60ff296d3b0ff31900d128b8";
+    sha256 = "0ikkq1w62fx12lsgnw3fd5smwghsgq8xxbc83sbwnvamzcadm0gs";
   };
 
   buildInputs = [ chez chez-hemlock chez-charset ];

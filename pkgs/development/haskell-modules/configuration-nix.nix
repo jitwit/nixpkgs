@@ -500,8 +500,8 @@ self: super: builtins.intersectAttrs super {
   # requires autotools to build
   secp256k1 = addBuildTools super.secp256k1 [ pkgs.buildPackages.autoconf pkgs.buildPackages.automake pkgs.buildPackages.libtool ];
 
-  # tests require git
-  hapistrano = addBuildTool super.hapistrano pkgs.buildPackages.git;
+  # tests require git and zsh
+  hapistrano = addBuildTools super.hapistrano [ pkgs.buildPackages.git pkgs.buildPackages.zsh ];
 
   # This propagates this to everything depending on haskell-gi-base
   haskell-gi-base = addBuildDepend super.haskell-gi-base pkgs.gobject-introspection;
@@ -517,9 +517,9 @@ self: super: builtins.intersectAttrs super {
   # https://github.com/plow-technologies/servant-streaming/issues/12
   servant-streaming-server = dontCheck super.servant-streaming-server;
 
-  # https://github.com/haskell-servant/servant/pull/1128
-  servant-client-core = if (pkgs.lib.getVersion super.servant-client-core) == "0.15" then
-    appendPatch super.servant-client-core ./patches/servant-client-core-streamBody.patch
+  # https://github.com/haskell-servant/servant/pull/1238
+  servant-client-core = if (pkgs.lib.getVersion super.servant-client-core) == "0.16" then
+    appendPatch super.servant-client-core ./patches/servant-client-core-redact-auth-header.patch
   else
     super.servant-client-core;
 

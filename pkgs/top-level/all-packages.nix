@@ -250,8 +250,6 @@ in
     cacert = buildPackages.cacert;
   };
 
-  fetchgitPrivate = callPackage ../build-support/fetchgit/private.nix { };
-
   fetchgitLocal = callPackage ../build-support/fetchgitlocal { };
 
   fetchmtn = callPackage ../build-support/fetchmtn (config.fetchmtn or {});
@@ -4096,7 +4094,9 @@ in
 
   intecture-auth = callPackage ../tools/admin/intecture/auth.nix { };
 
-  intecture-cli = callPackage ../tools/admin/intecture/cli.nix { };
+  intecture-cli = callPackage ../tools/admin/intecture/cli.nix {
+    openssl = openssl_1_0_2;
+  };
 
   intel-media-sdk = callPackage ../development/libraries/intel-media-sdk { };
 
@@ -4225,6 +4225,8 @@ in
   jp2a = callPackage ../applications/misc/jp2a { };
 
   jpeg-archive = callPackage ../applications/graphics/jpeg-archive { };
+
+  jpegexiforient = callPackage ../tools/graphics/jpegexiforient { };
 
   jpeginfo = callPackage ../applications/graphics/jpeginfo { };
 
@@ -6584,6 +6586,8 @@ in
 
   tcpreplay = callPackage ../tools/networking/tcpreplay { };
 
+  tdns-cli = callPackage ../tools/networking/tdns-cli { };
+
   ted = callPackage ../tools/typesetting/ted { };
 
   teamviewer = libsForQt5.callPackage ../applications/networking/remote/teamviewer { };
@@ -7645,6 +7649,8 @@ in
 
   chez-packrat = callPackage ../development/chez-modules/chez-packrat { };
 
+  chez-matchable = callPackage ../development/chez-modules/chez-matchable { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 
@@ -8446,7 +8452,10 @@ in
 
   llvmPackages_latest = llvmPackages_9;
 
-  lorri = throw "lorri is not stable yet. Please go to https://github.com/target/lorri and follow the installation instructions there, for the time being.";
+  lorri = callPackage ../tools/misc/lorri {
+    inherit (darwin) cf-private;
+    inherit (darwin.apple_sdk.frameworks) CoreServices Security;
+  };
 
   manticore = callPackage ../development/compilers/manticore { };
 
@@ -8605,6 +8614,9 @@ in
   defaultCrateOverrides = callPackage ../build-support/rust/default-crate-overrides.nix { };
 
   cargo-audit = callPackage ../tools/package-management/cargo-audit {
+    inherit (darwin.apple_sdk.frameworks) Security;
+  };
+  cargo-deb = callPackage ../tools/package-management/cargo-deb {
     inherit (darwin.apple_sdk.frameworks) Security;
   };
   cargo-deps = callPackage ../tools/package-management/cargo-deps { };
@@ -15425,11 +15437,7 @@ in
   postgresql_jdbc = callPackage ../development/java-modules/postgresql_jdbc { };
 
   prom2json = callPackage ../servers/monitoring/prometheus/prom2json.nix { };
-  prometheus = callPackage ../servers/monitoring/prometheus {
-    # Version 2.12.0 fails to build with go 1.13 due to an incorrect module file
-    # compilation error :go: cloud.google.com/go@v0.44.1: Get https://proxy.golang.org/cloud.google.com/go/@v/v0.44.1.mod: dial tcp: lookup proxy.golang.org on [::1]:53: read udp [::1]:58980->[::1]:53: read: connection refused
-    buildGoPackage = buildGo112Package;
-  };
+  prometheus = callPackage ../servers/monitoring/prometheus { };
   prometheus-alertmanager = callPackage ../servers/monitoring/prometheus/alertmanager.nix { };
   prometheus-apcupsd-exporter = callPackage ../servers/monitoring/prometheus/apcupsd-exporter.nix { };
   prometheus-aws-s3-exporter = callPackage ../servers/monitoring/prometheus/aws-s3-exporter.nix { };

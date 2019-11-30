@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/chez-hemlock.git";
-    rev = "fe6f645a00a0b793e314877c7a31407b41f6652f";
-    sha256 = "18s6gfjh02kmahy1x1xr63sw0brnadj6bs4gp7rdr9vd0yvsr5f1";
+    rev = "a695561bd2822385ce4f04aa17ee09b1d8f9162d";
+    sha256 = "1jlmcgw06l9w95z4vy0y23fcmq9ydscjz0m54dj2gq5ad5f7d1bw";
   };
 
   buildInputs = [ chez ];

@@ -5,7 +5,7 @@ stdenv.mkDerivation {
   version = "1.0";
 
   src = fetchgit {
-    url = "https://github.com/jitwit/chez-hemlock.git";
+    url = "https://github.com/jitwit/hemlock.git";
     rev = "a695561bd2822385ce4f04aa17ee09b1d8f9162d";
     sha256 = "1jlmcgw06l9w95z4vy0y23fcmq9ydscjz0m54dj2gq5ad5f7d1bw";
   };

@@ -445,7 +445,7 @@ let
     meta = {
       description = "A container for functions of the ClusterSSH programs";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
-      homepage = "http://github.com/duncs/clusterssh/wiki";
+      homepage = "https://github.com/duncs/clusterssh/wiki";
     };
   };
 
@@ -1519,7 +1519,7 @@ let
     buildInputs = [ TestFatal ];
     propagatedBuildInputs = [ CatalystActionRenderView CatalystPluginConfigLoader CatalystPluginStaticSimple ConfigGeneral FileChangeNotify FileCopyRecursive ModuleInstall TemplateToolkit ];
     meta = {
-      homepage = http://dev.catalyst.perl.org/;
+      homepage = http://wiki.catalystframework.org/wiki/;
       description = "Catalyst Development Tools";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -1577,7 +1577,7 @@ let
     buildInputs = [ TestFatal TypeTiny ];
     propagatedBuildInputs = [ CGISimple CGIStruct ClassC3AdoptNEXT DataDump HTTPBody ModulePluggable MooseXEmulateClassAccessorFast MooseXGetopt MooseXMethodAttributes MooseXRoleWithOverloading PathClass PerlIOutf8_strict PlackMiddlewareFixMissingBodyInRedirect PlackMiddlewareMethodOverride PlackMiddlewareRemoveRedundantBody PlackMiddlewareReverseProxy PlackTestExternalServer SafeIsa StringRewritePrefix TaskWeaken TextSimpleTable TreeSimpleVisitorFactory URIws ];
     meta = {
-      homepage = http://dev.catalyst.perl.org/;
+      homepage = http://wiki.catalystframework.org/wiki/;
       description = "The Catalyst Framework Runtime";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -1971,7 +1971,7 @@ let
       sha256 = "1c32b30131871e8a7b23f47d8f65d9cdeb87069fa4c221781a03416496f91f16";
     };
     meta = {
-      homepage = "http://github.com/toddr/CDB_File";
+      homepage = "https://github.com/toddr/CDB_File";
       description = "Perl extension for access to cdb databases";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -3418,6 +3418,19 @@ let
     buildInputs = [ pkgs.gmp DevelChecklib TestRequires ];
     NIX_CFLAGS_COMPILE = "-I${pkgs.gmp.dev}/include";
     NIX_CFLAGS_LINK = "-L${pkgs.gmp.out}/lib -lgmp";
+  };
+
+  CryptECB = buildPerlPackage {
+    pname = "Crypt-ECB";
+    version = "2.21";
+    src = fetchurl {
+      url = "mirror://cpan/authors/id/A/AP/APPEL/Crypt-ECB-2.21.tar.gz";
+      sha256 = "890f8b3040220ea705ee5ca4f9bd23435a1779bc3ffa75533736e6c9c21d1015";
+    };
+    meta = with stdenv.lib; {
+      description = "Use block ciphers using ECB mode";
+      license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
+    };
   };
 
   CryptEksblowfish = buildPerlModule {
@@ -4982,7 +4995,7 @@ let
       EOF
     '';
     meta = {
-      homepage = http://dbi.perl.org/;
+      homepage = https://dbi.perl.org/;
       description = "Database independent interface for Perl";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -5015,7 +5028,7 @@ let
     buildInputs = [ DBDSQLite TestDeep TestException TestWarn ];
     propagatedBuildInputs = [ ClassAccessorGrouped ClassC3Componentised ConfigAny ContextPreserve DBI DataDumperConcise DataPage ModuleFind PathClass SQLAbstract ScopeGuard SubName namespaceclean ];
     meta = {
-      homepage = http://www.dbix-class.org/;
+      homepage = https://metacpan.org/pod/DBIx::Class;
       description = "Extensible and flexible object <-> relational mapper";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -12889,6 +12902,22 @@ let
     };
   };
 
+  MySQLDiff = buildPerlPackage rec {
+    pname = "MySQL-Diff";
+    version = "0.60";
+    src = fetchurl {
+      url = "mirror://cpan/authors/id/E/ES/ESTRABD/MySQL-Diff-0.60.tar.gz";
+      sha256 = "5d7080a4bd5714ff9ef536aa774a7adb3c6f0e760215ca6c39d8a3545344f956";
+    };
+    propagatedBuildInputs = [ FileSlurp StringShellQuote pkgs.mysql-client ];
+    meta = {
+      homepage = "https://github.com/estrabd/mysqldiff";
+      description = "Generates a database upgrade instruction set";
+      license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
+      maintainers = [ maintainers.sgo ];
+    };
+  };
+
   namespaceautoclean = buildPerlPackage {
     pname = "namespace-autoclean";
     version = "0.29";
@@ -15399,7 +15428,7 @@ let
     };
     buildInputs = [ TestLongString TestWWWMechanize TestWWWMechanizeCGI ];
     meta = {
-      homepage = http://jaldhar.github.com/REST-Utils;
+      homepage = https://jaldhar.github.io/REST-Utils/;
       description = "Utility functions for REST applications";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
     };
@@ -16313,6 +16342,7 @@ let
       url = mirror://cpan/authors/id/R/RO/ROSCH/String-ShellQuote-1.04.tar.gz;
       sha256 = "0dfxhr6hxc2majkkrm0qbx3qcbykzpphbj2ms93dc86f7183c1p6";
     };
+    doCheck = !stdenv.isDarwin;
     meta = {
       # http://cpansearch.perl.org/src/ROSCH/String-ShellQuote-1.04/README
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
@@ -16674,6 +16704,18 @@ let
       url = mirror://cpan/authors/id/M/MZ/MZSANFORD/Sys-CPU-0.61.tar.gz;
       sha256 = "1r6976bs86j7zp51m5vh42xlyah951jgdlkimv202413kjvqc2i5";
     };
+    patches = [
+      # Bug #95400 for Sys-CPU: Tests fail on ARM and AArch64 Linux
+      # https://rt.cpan.org/Public/Bug/Display.html?id=95400
+      (fetchpatch {
+        url = "https://rt.cpan.org/Ticket/Attachment/1359669/721669/0001-Add-support-for-cpu_type-on-ARM-and-AArch64-Linux-pl.patch";
+        sha256 = "0rmazzdy34znksdhh8drc83lk754slhjgvnk4kk27z3kw5gm10m0";
+      })
+      (fetchpatch {
+        url = "https://rt.cpan.org/Ticket/Attachment/1388036/737125/0002-cpu_clock-can-be-undefined-on-an-ARM.patch";
+        sha256 = "0z3wqfahc9av7y34aqp6biq3sf8v8q4yynx7bv290vds50dsjb4w";
+      })
+    ];
     buildInputs = stdenv.lib.optional stdenv.isDarwin pkgs.darwin.apple_sdk.frameworks.Carbon;
     doCheck = !stdenv.isAarch64;
   };
@@ -19949,7 +19991,7 @@ let
     outputs = [ "out" ];
     propagatedBuildInputs = [ CGI CSSDOM ConfigGeneral LWP NetIP TermReadKey ];
     meta = {
-      homepage = http://validator.w3.org/checklink;
+      homepage = https://validator.w3.org/checklink;
       description = "A tool to check links and anchors in Web pages or full Web sites";
       license = stdenv.lib.licenses.w3c;
     };

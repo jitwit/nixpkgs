@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/chez-euler.git";
-    rev = "10ea854b3dbdd94b3efb4c609fafce485d04dbdd";
-    sha256 = "1xqi65kqxh2ibylavzc3bms36v5r0jrwh6cn9b1rglrsff6nl8w5";
+    rev = "14feaaae996cfe3148a6c7758914c57c2b010704";
+    sha256 = "19yh4xk0cap7w2gvzg2sca7bxw7a5pqmy2029f5z8ka96drqgx6p";
   };
 
   buildInputs = [ chez chez-hemlock ];

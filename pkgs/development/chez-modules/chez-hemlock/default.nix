@@ -16,7 +16,7 @@ stdenv.mkDerivation {
     make prefix=$out CHEZ=${chez}/bin/scheme
   '';
 
-  installPhase = ''
+    installPhase = ''
     make install prefix=$out CHEZ=${chez}/bin/scheme
   '';
 

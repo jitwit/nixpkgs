@@ -46,7 +46,7 @@ let
   gitFull = gitBase.override {
     svnSupport = true;
     guiSupport = true;
-    sendEmailSupport = !stdenv.isDarwin;
+    sendEmailSupport = true;
     withLibsecret = !stdenv.isDarwin;
   };
 
@@ -103,6 +103,8 @@ let
 
   git-imerge = callPackage ./git-imerge { };
 
+  git-interactive-rebase-tool = callPackage ./git-interactive-rebase-tool {};
+
   git-machete = python3Packages.callPackage ./git-machete { };
 
   git-octopus = callPackage ./git-octopus { };
@@ -134,6 +136,10 @@ let
   git-sync = callPackage ./git-sync { };
 
   git-test = callPackage ./git-test { };
+
+  git-workspace = callPackage ./git-workspace {
+    inherit (darwin.apple_sdk.frameworks) Security;
+  };
 
   git2cl = callPackage ./git2cl { };
 
@@ -173,6 +179,8 @@ let
   };
 
   svn-all-fast-export = libsForQt5.callPackage ./svn-all-fast-export { };
+
+  thicket = callPackage ./thicket { };
 
   tig = callPackage ./tig { };
 

@@ -6,8 +6,8 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/hemlock.git";
-    rev = "26f7652c566d3444718f14f54ee3f65c27a30434";
-    sha256 = "1z5n2c5y7q2jhp9abgxxkara3wcg6whamk5kj77rlv2b15lic680";
+    rev = "5506a83ef53cd469449190862e82de0ee69b5a66";
+    sha256 = "18im3a891136d8kf88i3br56q3d10c120c4b711pn0bc7izgc3w5";
   };
 
   buildInputs = [ chez ];
@@ -20,7 +20,7 @@ stdenv.mkDerivation {
     description = "Trees and other structures";
     homepage = https://github.com/jitwit/chez-hemlock/;
     maintainers = [ stdenv.lib.maintainers.jitwit ];
-    license = stdenv.lib.licenses.asl20;
+    license = stdenv.lib.licenses.gpl3;
   };
 
 }

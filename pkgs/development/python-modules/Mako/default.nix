@@ -10,11 +10,11 @@
 
 buildPythonPackage rec {
   pname = "Mako";
-  version = "1.1.0";
+  version = "1.1.3";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "a36919599a9b7dc5d86a7a8988f23a9a3a3d083070023bab23d64f7f1d1e0a4b";
+    sha256 = "8195c8c1400ceb53496064314c6736719c6f25e7479cd24c77be3d9361cddc27";
   };
 
   checkInputs = [ markupsafe nose mock ];
@@ -27,7 +27,7 @@ buildPythonPackage rec {
 
   meta = {
     description = "Super-fast templating language";
-    homepage = http://www.makotemplates.org;
+    homepage = "http://www.makotemplates.org";
     license = lib.licenses.mit;
     platforms = lib.platforms.unix;
     maintainers = with lib.maintainers; [ domenkozar ];

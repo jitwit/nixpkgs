@@ -17,8 +17,11 @@ let
     inherit makeDesktopItem pname suiteName;
   };
   shortEdition = builtins.substring 2 2 edition;
-in stdenv.mkDerivation rec {
-  inherit pname version edition shortEdition src;
+in stdenv.mkDerivation {
+  inherit pname src;
+
+  version = "${edition}.${version}";
+
   nativeBuildInputs = [
     autoPatchelfHook
     makeWrapper
@@ -95,6 +98,10 @@ in stdenv.mkDerivation rec {
           $out/share/icons/hicolor/''${size}x''${size}/mimetypes/application-x-''${mimetype}.png
       done
     done
+
+    # freeoffice 973 misses the 96x96 application icons, giving broken symbolic links
+    # remove broken symbolic links
+    find $out -xtype l -ls -exec rm {} \;
 
     # Add desktop items
     ${desktopItems.planmaker.buildCommand}

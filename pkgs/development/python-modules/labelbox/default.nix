@@ -10,11 +10,11 @@
 
 buildPythonPackage rec {
   pname = "labelbox";
-  version = "2.1";
+  version = "2.4.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "f97f01bf030b115d8b7f7b12a10ec5efe54750ad66b6b3567550b517a543ad11";
+    sha256 = "1d7a7304fe6a33c1345ab569e70019f7fa11c97d49948e4fc4bf3bbc1f202703";
   };
 
   propagatedBuildInputs = [ jinja2 requests pillow rasterio shapely ];
@@ -23,7 +23,7 @@ buildPythonPackage rec {
   doCheck = false;   
 
   meta = with lib; {
-    homepage = https://github.com/Labelbox/Labelbox;
+    homepage = "https://github.com/Labelbox/Labelbox";
     description = "Platform API for LabelBox";
     license = licenses.asl20;
     maintainers = with maintainers; [ rakesh4g ];

@@ -4,11 +4,11 @@
 
 buildPythonPackage rec {
   pname = "myfitnesspal";
-  version = "1.13.3";
+  version = "1.14.0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "4f785341f0499bad8d3400cfcfffd99b7fcf8aac3971390f8ec3dfaed8361b20";
+    sha256 = "66bf61c3d782cd80f380d3856da5f635f5b8de032e62d916c26d48dc322846a6";
   };
 
   # Remove overly restrictive version constraints on keyring and keyrings.alt
@@ -22,7 +22,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Access your meal tracking data stored in MyFitnessPal programatically";
-    homepage = https://github.com/coddingtonbear/python-myfitnesspal;
+    homepage = "https://github.com/coddingtonbear/python-myfitnesspal";
     license = licenses.mit;
     maintainers = with maintainers; [ bhipple ];
   };

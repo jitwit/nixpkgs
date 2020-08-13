@@ -18,12 +18,12 @@
 
 buildPythonPackage rec {
   pname = "trio";
-  version = "0.12.1";
+  version = "0.15.1";
   disabled = pythonOlder "3.5";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "0wnnrs36arvimrfgrlbpjw3nx7lppx43yvk2b380ivv69h52i6hl";
+    sha256 = "3010864ab8d8b2ae44d3bc97b0e8924d8f5170bf32f07c7638a930a129687f33";
   };
 
   checkInputs = [ astor pytest pyopenssl trustme jedi pylint yapf ];
@@ -50,7 +50,7 @@ buildPythonPackage rec {
 
   meta = {
     description = "An async/await-native I/O library for humans and snake people";
-    homepage = https://github.com/python-trio/trio;
+    homepage = "https://github.com/python-trio/trio";
     license = with lib.licenses; [ mit asl20 ];
     maintainers = with lib.maintainers; [ catern ];
   };

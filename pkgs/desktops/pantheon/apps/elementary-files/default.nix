@@ -1,5 +1,6 @@
 { stdenv
 , fetchFromGitHub
+, nix-update-script
 , pantheon
 , pkgconfig
 , meson
@@ -24,13 +25,13 @@
 , glib-networking
 , elementary-icon-theme
 , libcloudproviders
-, fetchpatch
+, libgit2-glib
 , wrapGAppsHook
 }:
 
 stdenv.mkDerivation rec {
   pname = "elementary-files";
-  version = "4.2.0";
+  version = "4.4.4";
 
   repoName = "files";
 
@@ -40,13 +41,12 @@ stdenv.mkDerivation rec {
     owner = "elementary";
     repo = repoName;
     rev = version;
-    sha256 = "12f0hzb62nchksyqd2gwj3cv001rph24ggd9wywh9i1qwppx4b5k";
+    sha256 = "1hsh9kg30l90r2aqrrap1nfmgjf0la8mfd8h4xm6d7acailcnhmb";
   };
 
   passthru = {
-    updateScript = pantheon.updateScript {
-      inherit repoName;
-      attrPath = pname;
+    updateScript = nix-update-script {
+      attrPath = "pantheon.${pname}";
     };
   };
 
@@ -71,6 +71,7 @@ stdenv.mkDerivation rec {
     libcloudproviders
     libdbusmenu-gtk3
     libgee
+    libgit2-glib
     libnotify
     libunity
     pango
@@ -81,11 +82,6 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./hardcode-gsettings.patch
-    # Fixes https://github.com/elementary/files/issues/1081
-    (fetchpatch {
-      url = "https://github.com/elementary/files/commit/76b5cc95466733c2c100a99127ecd4fbd4d2a5ec.patch";
-      sha256 = "0dn8a9l7i2rdgia1rsc50332fsw0yrbfvpb5z8ba4iiki3lxy2nn";
-    })
   ];
 
   postPatch = ''
@@ -98,7 +94,7 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "File browser designed for elementary OS";
-    homepage = https://github.com/elementary/files;
+    homepage = "https://github.com/elementary/files";
     license = licenses.lgpl3;
     platforms = platforms.linux;
     maintainers = pantheon.maintainers;

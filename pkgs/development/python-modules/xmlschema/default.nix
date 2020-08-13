@@ -1,33 +1,37 @@
 { lib, buildPythonPackage, fetchFromGitHub
 , elementpath
+, lxml
 , pytest
 }:
 
 buildPythonPackage rec {
-  version = "1.0.15";
+  version = "1.2.2";
   pname = "xmlschema";
 
   src = fetchFromGitHub {
     owner = "sissaschool";
     repo = "xmlschema";
     rev = "v${version}";
-    sha256 = "1s8ggvy2s7513cxcal3r37rn1bhpkxhq3hs5m9pgvmrysxjdz8lb";
+    sha256 = "04rlcm5777cv7aw9mf0z1xrj8cn2rljfzs9i2za6sdk6h1ngpj3q";
   };
 
   propagatedBuildInputs = [ elementpath ];
 
-  checkInputs = [ pytest ];
+  checkInputs = [ lxml pytest ];
+
+  postPatch = ''
+    substituteInPlace setup.py \
+      --replace "elementpath~=1.4.0" "elementpath~=1.4"
+  '';
 
   # Ignore broken fixtures, and tests for files which don't exist.
   # For darwin, we need to explicity say we can't reach network
   checkPhase = ''
-    substituteInPlace xmlschema/tests/__init__.py \
-      --replace "SKIP_REMOTE_TESTS = " "SKIP_REMOTE_TESTS = True #"
-    pytest . \
-      --ignore=xmlschema/tests/test_factory.py \
-      --ignore=xmlschema/tests/test_memory.py \
-      --ignore=xmlschema/tests/test_validators.py \
-      --ignore=xmlschema/tests/test_schemas.py \
+    pytest tests \
+      --ignore=tests/test_factory.py \
+      --ignore=tests/test_schemas.py \
+      --ignore=tests/test_memory.py \
+      --ignore=tests/test_validation.py \
       -k 'not element_tree_import_script'
   '';
 

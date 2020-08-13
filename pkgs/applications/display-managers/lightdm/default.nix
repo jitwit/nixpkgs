@@ -1,5 +1,6 @@
 { stdenv
 , fetchFromGitHub
+, nix-update-script
 , substituteAll
 , plymouth
 , pam
@@ -27,6 +28,7 @@
 , qt4
 , withQt5 ? false
 , qtbase
+, yelp-tools
 }:
 
 with stdenv.lib;
@@ -47,7 +49,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     autoconf
     automake
-    gnome3.yelp-tools
+    yelp-tools
     gnome3.yelp-xsl
     gobject-introspection
     gtk-doc
@@ -82,6 +84,12 @@ stdenv.mkDerivation rec {
     (fetchpatch {
       url = "https://github.com/canonical/lightdm/commit/a99376f5f51aa147aaf81287d7ce70db76022c47.patch";
       sha256 = "1zyx1qqajrmqcf9hbsapd39gmdanswd9l78rq7q6rdy4692il3yn";
+    })
+
+    # https://github.com/canonical/lightdm/pull/104
+    (fetchpatch {
+      url = "https://github.com/canonical/lightdm/commit/03f218981733e50d810767f9d04e42ee156f7feb.patch";
+      sha256 = "07w18m2gpk29z6ym4y3lzsmg5dk3ffn39sq6lac26ap7narf4ma7";
     })
 
     # Hardcode plymouth to fix transitions.
@@ -120,8 +128,15 @@ stdenv.mkDerivation rec {
     rm -rf $out/etc/apparmor.d $out/etc/init $out/etc/pam.d
   '';
 
+  passthru = {
+    updateScript = nix-update-script {
+      attrPath = pname;
+    };
+  };
+
+
   meta = {
-    homepage = https://github.com/CanonicalLtd/lightdm;
+    homepage = "https://github.com/CanonicalLtd/lightdm";
     description = "A cross-desktop display manager";
     platforms = platforms.linux;
     license = licenses.gpl3;

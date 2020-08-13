@@ -7,11 +7,11 @@
 
 buildPythonPackage rec {
   pname = "lazy-object-proxy";
-  version = "1.4.2";
+  version = "1.5.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "fd135b8d35dfdcdb984828c84d695937e58cc5f49e1c854eb311c4d6aa03f4f1";
+    sha256 = "9723364577b79ad9958a68851fe2acb94da6fd25170c595516a8289e6a129043";
   };
 
   nativeBuildInputs = [ setuptools_scm ];
@@ -26,7 +26,7 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "A fast and thorough lazy object proxy";
-    homepage = https://github.com/ionelmc/python-lazy-object-proxy;
+    homepage = "https://github.com/ionelmc/python-lazy-object-proxy";
     license = with licenses; [ bsd2 ];
   };
 

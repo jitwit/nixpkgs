@@ -37,10 +37,10 @@ let
      chmod -R a+w $out/share/gsettings-schemas/nixos-gsettings-overrides
      cat - > $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas/nixos-defaults.gschema.override <<- EOF
        [org.gnome.desktop.background]
-       picture-uri='file://${pkgs.nixos-artwork.wallpapers.simple-dark-gray}/share/artwork/gnome/nix-wallpaper-simple-dark-gray.png'
+       picture-uri='file://${pkgs.nixos-artwork.wallpapers.simple-dark-gray.gnomeFilePath}'
 
        [org.gnome.desktop.screensaver]
-       picture-uri='file://${pkgs.nixos-artwork.wallpapers.simple-dark-gray-bottom}/share/artwork/gnome/nix-wallpaper-simple-dark-gray_bottom.png'
+       picture-uri='file://${pkgs.nixos-artwork.wallpapers.simple-dark-gray-bottom.gnomeFilePath}'
 
        [org.gnome.shell]
        favorite-apps=[ 'org.gnome.Epiphany.desktop', 'org.gnome.Geary.desktop', 'org.gnome.Music.desktop', 'org.gnome.Photos.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop' ]
@@ -57,6 +57,10 @@ in
 
 {
 
+  meta = {
+    maintainers = teams.gnome.members;
+  };
+
   options = {
 
     services.gnome3 = {
@@ -68,6 +72,7 @@ in
 
     services.xserver.desktopManager.gnome3 = {
       enable = mkOption {
+        type = types.bool;
         default = false;
         description = "Enable Gnome 3 desktop manager.";
       };
@@ -144,7 +149,7 @@ in
       services.gnome3.core-shell.enable = true;
       services.gnome3.core-utilities.enable = mkDefault true;
 
-      services.xserver.displayManager.extraSessionFilePackages = [ pkgs.gnome3.gnome-session ];
+      services.xserver.displayManager.sessionPackages = [ pkgs.gnome3.gnome-session.sessions ];
 
       environment.extraInit = ''
         ${concatMapStrings (p: ''
@@ -171,7 +176,7 @@ in
     })
 
     (mkIf flashbackEnabled {
-      services.xserver.displayManager.extraSessionFilePackages =  map
+      services.xserver.displayManager.sessionPackages =  map
         (wm: pkgs.gnome3.gnome-flashback.mkSessionForWm {
           inherit (wm) wmName wmLabel wmCommand;
         }) (optional cfg.flashback.enableMetacity {
@@ -180,7 +185,7 @@ in
               wmCommand = "${pkgs.gnome3.metacity}/bin/metacity";
             } ++ cfg.flashback.customSessions);
 
-      security.pam.services.gnome-screensaver = {
+      security.pam.services.gnome-flashback = {
         enableGnomeKeyring = true;
       };
 
@@ -191,9 +196,10 @@ in
           inherit (wm) wmName;
         }) cfg.flashback.customSessions);
 
-      services.dbus.packages = [
-        pkgs.gnome3.gnome-screensaver
-      ];
+        # gnome-panel needs these for menu applet
+        environment.sessionVariables.XDG_DATA_DIRS = [ "${pkgs.gnome3.gnome-flashback}/share" ];
+        # TODO: switch to sessionVariables (resolve conflict)
+        environment.variables.XDG_CONFIG_DIRS = [ "${pkgs.gnome3.gnome-flashback}/etc/xdg" ];
     })
 
     (mkIf serviceCfg.core-os-services.enable {
@@ -249,11 +255,16 @@ in
       services.system-config-printer.enable = (mkIf config.services.printing.enable (mkDefault true));
       services.telepathy.enable = mkDefault true;
 
-      systemd.packages = with pkgs.gnome3; [ vino gnome-session ];
+      systemd.packages = with pkgs.gnome3; [
+        gnome-session
+        gnome-shell
+      ];
 
       services.avahi.enable = mkDefault true;
 
-      xdg.portal.extraPortals = [ pkgs.gnome3.gnome-shell ];
+      xdg.portal.extraPortals = [
+        pkgs.gnome3.gnome-shell
+      ];
 
       services.geoclue2.enable = mkDefault true;
       services.geoclue2.enableDemoAgent = false; # GNOME has its own geoclue agent
@@ -298,7 +309,7 @@ in
         environment = mkForce {};
       };
 
-      # Adapt from https://gitlab.gnome.org/GNOME/gnome-build-meta/blob/gnome-3-32/elements/core/meta-gnome-core-shell.bst
+      # Adapt from https://gitlab.gnome.org/GNOME/gnome-build-meta/blob/gnome-3-36/elements/core/meta-gnome-core-shell.bst
       environment.systemPackages = with pkgs.gnome3; [
         adwaita-icon-theme
         gnome-backgrounds
@@ -309,7 +320,9 @@ in
         gnome-shell
         gnome-shell-extensions
         gnome-themes-extra
-        gnome-user-docs
+        pkgs.nixos-artwork.wallpapers.simple-dark-gray
+        pkgs.nixos-artwork.wallpapers.simple-dark-gray-bottom
+        pkgs.gnome-user-docs
         pkgs.orca
         pkgs.glib # for gsettings
         pkgs.gnome-menus
@@ -317,18 +330,16 @@ in
         pkgs.hicolor-icon-theme
         pkgs.shared-mime-info # for update-mime-database
         pkgs.xdg-user-dirs # Update user dirs as described in http://freedesktop.org/wiki/Software/xdg-user-dirs/
-        vino
       ];
     })
 
-    # Adapt from https://gitlab.gnome.org/GNOME/gnome-build-meta/blob/gnome-3-32/elements/core/meta-gnome-core-utilities.bst
+    # Adapt from https://gitlab.gnome.org/GNOME/gnome-build-meta/blob/gnome-3-36/elements/core/meta-gnome-core-utilities.bst
     (mkIf serviceCfg.core-utilities.enable {
       environment.systemPackages = (with pkgs.gnome3; removePackagesByName [
         baobab
         cheese
         eog
         epiphany
-        geary
         gedit
         gnome-calculator
         gnome-calendar
@@ -355,6 +366,7 @@ in
       # Enable default programs
       programs.evince.enable = mkDefault true;
       programs.file-roller.enable = mkDefault true;
+      programs.geary.enable = mkDefault true;
       programs.gnome-disks.enable = mkDefault true;
       programs.gnome-terminal.enable = mkDefault true;
       programs.seahorse.enable = mkDefault true;

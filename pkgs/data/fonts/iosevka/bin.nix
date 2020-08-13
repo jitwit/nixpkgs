@@ -1,7 +1,7 @@
 { stdenv, fetchzip }:
 
 let
-  version = "2.3.2";
+  version = "3.3.1";
 in fetchzip {
   name = "iosevka-bin-${version}";
 
@@ -12,10 +12,10 @@ in fetchzip {
     unzip -j $downloadedFile \*.ttc -d $out/share/fonts/iosevka
   '';
 
-  sha256 = "1dkfh354scjgzq7kgy4cn70z030wmfgxixqp8p9m6i0ps8gccjgs";
+  sha256 = "1hfccivk5f7i489s78yh2x96ic6rf5ncbsjqnrxqmfs9n1gjhfbj";
 
   meta = with stdenv.lib; {
-    homepage = https://be5invis.github.io/Iosevka/;
+    homepage = "https://be5invis.github.io/Iosevka/";
     downloadPage = "https://github.com/be5invis/Iosevka/releases";
     description = ''
       Slender monospace sans-serif and slab-serif typeface inspired by Pragmata

@@ -1,7 +1,8 @@
 { stdenv, fetchFromGitHub, meson, ninja, pkgconfig, gtk3, epoxy, wayland }:
-stdenv.mkDerivation {
+
+stdenv.mkDerivation rec {
   pname = "wdisplays";
-  version = "2019-10-26-unstable";
+  version = "1.0";
 
   nativeBuildInputs = [ meson ninja pkgconfig ];
 
@@ -10,14 +11,14 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "cyclopsian";
     repo = "wdisplays";
-    rev = "22669edadb8ff3478bdb51ddc140ef6e61e3d9ef";
-    sha256 = "127k5i98km6mh8yw4vf8n44b29kc3n0169xpkdh7yr0rhv6n9cdl";
+    rev = version;
+    sha256 = "1xhgrcihja2i7yg54ghbwr1v6kf8jnsfcp364yb97vkxskc4y21y";
   };
 
   meta = let inherit (stdenv) lib; in {
     description = "A graphical application for configuring displays in Wayland compositors";
     homepage = "https://github.com/cyclopsian/wdisplays";
-    maintainers = [ lib.maintainers.lheckemann ];
+    maintainers = with lib.maintainers; [ lheckemann ma27 ];
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;
   };

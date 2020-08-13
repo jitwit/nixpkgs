@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, fetchpatch, flex, bison, readline }:
+{ lib, stdenv, fetchurl, fetchpatch, flex, bison, readline, libssh }:
 
 with lib;
 
@@ -15,7 +15,7 @@ let
       };
 
       nativeBuildInputs = [ flex bison ];
-      buildInputs = [ readline ];
+      buildInputs = [ readline libssh ];
 
       patches = [
         (./. + "/dont-create-sysconfdir-${builtins.substring 0 1 version}.patch")
@@ -36,7 +36,7 @@ let
 
       meta = {
         description = "BIRD Internet Routing Daemon";
-        homepage = http://bird.network.cz;
+        homepage = "http://bird.network.cz";
         license = licenses.gpl2Plus;
         maintainers = with maintainers; [ fpletz globin ];
         platforms = platforms.linux;

@@ -2,18 +2,18 @@
 
 buildPythonPackage rec {
   pname = "ijson";
-  version = "2.5.1";
+  version = "3.0.4";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "19ec46a2f7991004e5202ecee56c569616b8a7f95686ad7fd0a9ec81cac00269";
+    sha256 = "6e25448318cda55e82a5de52beb6813b003cb8e4a7b5753305912a30055a29f8";
   };
 
   doCheck = false; # something about yajl
 
   meta = with stdenv.lib; {
     description = "Iterative JSON parser with a standard Python iterator interface";
-    homepage = "https://github.com/isagalaev/ijson";
+    homepage = "https://github.com/ICRAR/ijson";
     license = licenses.bsd3;
     maintainers = with maintainers; [ rvl ];
   };

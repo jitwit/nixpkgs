@@ -76,8 +76,8 @@ in
     mktplcRef = {
       name = "language-haskell";
       publisher = "justusadam";
-      version = "2.6.0"; # see the note above
-      sha256 = "1891pg4x5qkh151pylvn93c4plqw6vgasa4g40jbma5xzq8pygr4";
+      version = "3.0.3";
+      sha256 = "1sg4g8h1gww4y67zix5f33v2gf121k2fcm6l1m7lygpkn40a8dsj";
     };
     meta = {
       license = stdenv.lib.licenses.bsd3;
@@ -122,6 +122,8 @@ in
 
   ms-vscode.cpptools = callPackage ./cpptools {};
 
+  ms-vscode-remote.remote-ssh = callPackage ./remote-ssh {};
+
   ms-python.python = callPackage ./python {
     extractNuGet = callPackage ./python/extract-nuget.nix { };
   };
@@ -138,6 +140,31 @@ in
     };
   };
 
+  matklad.rust-analyzer = callPackage ./rust-analyzer {};
+
+  scala-lang.scala = buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "scala";
+      publisher = "scala-lang";
+      version = "0.3.8";
+      sha256 = "17dl10m3ayf57sqgil4mr9fjdm7i8gb5clrs227b768pp2d39ll9";
+    };
+    meta = {
+      license = stdenv.lib.licenses.mit;
+    };
+  };
+
+  scalameta.metals = buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "metals";
+      publisher = "scalameta";
+      version = "1.9.0";
+      sha256 = "0p2wbnw98zmjbfiz4mi1mh131s78r01kjnja339lwdigqxg88gi6";
+    };
+    meta = {
+      license = stdenv.lib.licenses.asl20;
+    };
+  };
 
   skyapps.fish-vscode = buildVscodeMarketplaceExtension {
     mktplcRef = {
@@ -160,6 +187,19 @@ in
     };
     meta = {
       license = stdenv.lib.licenses.mit;
+    };
+  };
+
+  xaver.clang-format = buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "clang-format";
+      publisher = "xaver";
+      version = "1.9.0";
+      sha256 = "abd0ef9176eff864f278c548c944032b8f4d8ec97d9ac6e7383d60c92e258c2f";
+    };
+    meta = with stdenv.lib; {
+      license = licenses.mit;
+      maintainers = [ maintainers.zeratax ];
     };
   };
 

@@ -6,11 +6,11 @@
 
 buildPythonPackage rec {
   pname = "django-cors-headers";
-  version = "3.1.1";
+  version = "3.3.0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "5762ec9c2d59f38c76828dc1d4308baca4bc0d3e1d6f217683e7a24a1c4611a3";
+    sha256 = "73d654950b5f5e7e4f67c05183d2169d4f7518ceb87734eb0d68f9e43be59f1c";
   };
 
   propagatedBuildInputs = [ django ];
@@ -20,7 +20,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Django app for handling server Cross-Origin Resource Sharing (CORS) headers";
-    homepage = https://github.com/OttoYiu/django-cors-headers;
+    homepage = "https://github.com/OttoYiu/django-cors-headers";
     license = licenses.mit;
     maintainers = [ maintainers.ivegotasthma ];
   };

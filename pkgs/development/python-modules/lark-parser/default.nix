@@ -5,13 +5,13 @@
 
 buildPythonPackage rec {
   pname = "lark-parser";
-  version = "0.7.7";
+  version = "0.8.8";
 
   src = fetchFromGitHub {
     owner = "lark-parser";
     repo = "lark";
     rev = version;
-    sha256 = "1b0dvvqqasir8dfpqj4jch7wxxk43csbv0wa80fiqsdlymxxj2dj";
+    sha256 = "1q2dvkkfx9dvag5v5ps0ki4avh7i003gn9sj30jy1rsv1bg4y2mb";
   };
 
   # tests of Nearley support require js2py
@@ -21,7 +21,7 @@ buildPythonPackage rec {
 
   meta = {
     description = "A modern parsing library for Python, implementing Earley & LALR(1) and an easy interface";
-    homepage = https://github.com/lark-parser/lark;
+    homepage = "https://github.com/lark-parser/lark";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ fridh ];
   };

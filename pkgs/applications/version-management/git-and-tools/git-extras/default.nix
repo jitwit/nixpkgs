@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "git-extras";
-  version = "5.0.0";
+  version = "6.0.0";
 
   src = fetchzip {
     url = "https://github.com/tj/git-extras/archive/${version}.tar.gz";
-    sha256 = "0c839kc5mhi1iqhc696p4dj67i5hm2gi4d8cvdpskaapb124mj2f";
+    sha256 = "0mxb3c5lb5n7c76bp10bw7bid564vjxi5f7cvzaj2ss93v5rr11g";
   };
 
   nativeBuildInputs = [ unixtools.column which ];
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with stdenv.lib; {
-    homepage = https://github.com/tj/git-extras;
+    homepage = "https://github.com/tj/git-extras";
     description = "GIT utilities -- repo summary, repl, changelog population, author commit percentages and more";
     license = licenses.mit;
     platforms = platforms.all;

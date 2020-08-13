@@ -22,7 +22,7 @@
 , libpulseaudio ? null
 , libselinux ? null
 , libsepol ? null
-, p11_kit ? null
+, p11-kit ? null
 , utillinux ? null
 , qtbase
 , qtx11extras
@@ -35,13 +35,13 @@
 
 mkDerivation rec {
   pname = "strawberry";
-  version = "0.6.5";
+  version = "0.6.13";
 
   src = fetchFromGitHub {
     owner = "jonaski";
     repo = pname;
     rev = version;
-    sha256 = "1kqx0q99n1p5pm6skvqjihz11byhxdid1qw6gqp67dh2na62z1lm";
+    sha256 = "1v0334aivqyqx611cmhgshknzmrgyynbmxcg70qzrs2lyybw2fc1";
   };
 
   buildInputs = [
@@ -66,7 +66,7 @@ mkDerivation rec {
     libpulseaudio
     libselinux
     libsepol
-    p11_kit
+    p11-kit
     utillinux
   ]
   ++ lib.optionals withGstreamer (with gst_all_1; [
@@ -93,7 +93,7 @@ mkDerivation rec {
     changelog = "https://raw.githubusercontent.com/jonaski/strawberry/${version}/Changelog";
     license = licenses.gpl3;
     maintainers = with maintainers; [ peterhoeg ];
-    # upstream says darwin should work but they lack maintainers as of 0.6.5
+    # upstream says darwin should work but they lack maintainers as of 0.6.6
     platforms = platforms.linux;
   };
 }

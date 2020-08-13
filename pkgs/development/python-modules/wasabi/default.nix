@@ -6,11 +6,11 @@
 
 buildPythonPackage rec {
   pname = "wasabi";
-  version = "0.3.0";
+  version = "0.7.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "0f18x27qrr29rgxyiy1k9b469i37n80h0x9vd9i22pyg8wxx67q5";
+    sha256 = "ee3809f4ce00e1e7f424b1572c753cff0dcaca2ca684e67e31f985033a9f070b";
   };
 
   checkInputs = [
@@ -23,7 +23,7 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "A lightweight console printing and formatting toolkit";
-    homepage = https://github.com/ines/wasabi;
+    homepage = "https://github.com/ines/wasabi";
     license = licenses.mit;
     maintainers = with maintainers; [ danieldk ];
     };

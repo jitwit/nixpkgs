@@ -30,13 +30,13 @@ assert (privateBuildPlan != null) -> set != null;
 stdenv.mkDerivation rec {
   pname = if set != null then "iosevka-${set}" else "iosevka";
 
-  version = "2.3.2";
+  version = "3.2.2";
 
   src = fetchFromGitHub {
     owner = "be5invis";
     repo = "Iosevka";
     rev = "v${version}";
-    sha256 = "0s0vdvp1sn8p2pi2xm9n05pabk30ki7wjlmr0zz0nkhidb8apw6k";
+    sha256 = "1wbnp6gr3ywvspwk6i0jn68zwjmsd38arn4n2dkh7mdkrmvah81k";
   };
 
   nativeBuildInputs = [
@@ -69,7 +69,7 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     runHook preBuild
-    npm run build -- ttf::$pname
+    npm run build --no-update-notifier -- --jCmd=$NIX_BUILD_CORES ttf::$pname >/dev/null
     runHook postBuild
   '';
 

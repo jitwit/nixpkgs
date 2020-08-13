@@ -1,37 +1,34 @@
 { stdenv
 , rustPlatform
 , fetchFromGitHub
-, nodejs
+, installShellFiles
 , Security
-, texlab-citeproc-build-deps
 }:
 
 rustPlatform.buildRustPackage rec {
   pname = "texlab";
-  version = "1.6.0";
+  version = "2.2.0";
 
   src = fetchFromGitHub {
     owner = "latex-lsp";
     repo = pname;
     rev = "v${version}";
-    sha256 = "115f63fij0lxcccf7ba9p0lzg1hlfp9i2g7gvvnx0il426h4ynnm";
+    sha256 = "0iydkbmx9z7xpwaif0han5jvy9xh1afmfyldl7fcyy4r906dsmhx";
   };
 
-  cargoSha256 = "0cp8q3qags01s6v3kbghxyzz1hc5rhq6jf15fzz10d1l8mrmw4cy";
+  cargoSha256 = "0iibjh2ll181j69vld1awvjgyv3xwmq0abh10651la4k4jpppx46";
 
-  nativeBuildInputs = [ nodejs ];
+  nativeBuildInputs = [ installShellFiles ];
 
   buildInputs = stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
-  preBuild = ''
-    rm build.rs
-    ln -s ${texlab-citeproc-build-deps}/lib/node_modules/citeproc/node_modules src/citeproc/js
-    (cd src/citeproc/js && npm run dist)
+  postInstall = ''
+    installManPage texlab.1
   '';
 
   meta = with stdenv.lib; {
     description = "An implementation of the Language Server Protocol for LaTeX";
-    homepage = https://texlab.netlify.com/;
+    homepage = "https://texlab.netlify.com/";
     license = licenses.mit;
     maintainers = with maintainers; [ doronbehar metadark ];
     platforms = platforms.all;

@@ -7,7 +7,7 @@
 #   3) used by `google-cloud-sdk` only on GCE guests
 #
 
-{ stdenv, lib, fetchurl, makeWrapper, python, with-gce ? false }:
+{ stdenv, lib, fetchurl, makeWrapper, python, openssl, jq, with-gce ? false }:
 
 let
   pythonEnv = python.withPackages (p: with p; [
@@ -21,25 +21,28 @@ let
   sources = name: system: {
     x86_64-darwin = {
       url = "${baseUrl}/${name}-darwin-x86_64.tar.gz";
-      sha256 = "10h0khh8npj2j5f7h3z86h46zbb1skbfs74firssich6jk7rx6km";
+      sha256 = "1b9pm0k298w7scsi493a2xlikiqqbb8vwcy9j71421kyvlj4g7yr";
     };
 
     x86_64-linux = {
       url = "${baseUrl}/${name}-linux-x86_64.tar.gz";
-      sha256 = "182r9lgpks50ihcrkarc5w6l4rfmpdnx825lazamj5j2jsha73xw";
+      sha256 = "1f6kkcwxg419kw58521n4ms68hspx7mj87syj4xzxdwgkwg92ws7";
     };
   }.${system};
 
 in stdenv.mkDerivation rec {
   pname = "google-cloud-sdk";
-  version = "268.0.0";
+  version = "301.0.0";
 
   src = fetchurl (sources "${pname}-${version}" stdenv.hostPlatform.system);
 
   buildInputs = [ python makeWrapper ];
 
+  nativeBuildInputs = [ jq ];
+
   patches = [
     ./gcloud-path.patch
+    ./gsutil-disable-updates.patch
   ];
 
   installPhase = ''
@@ -56,7 +59,8 @@ in stdenv.mkDerivation rec {
         binaryPath="$out/bin/$program"
         wrapProgram "$programPath" \
             --set CLOUDSDK_PYTHON "${pythonEnv}/bin/python" \
-            --prefix PYTHONPATH : "${pythonEnv}/${python.sitePackages}"
+            --prefix PYTHONPATH : "${pythonEnv}/${python.sitePackages}" \
+            --prefix PATH : "${openssl.bin}/bin"
 
         mkdir -p $out/bin
         ln -s $programPath $binaryPath
@@ -75,7 +79,18 @@ in stdenv.mkDerivation rec {
 
     # This directory contains compiled mac binaries. We used crcmod from
     # nixpkgs instead.
-    rm -r $out/google-cloud-sdk/platform/gsutil/third_party/crcmod
+    rm -r $out/google-cloud-sdk/platform/gsutil/third_party/crcmod \
+          $out/google-cloud-sdk/platform/gsutil/third_party/crcmod_osx
+
+    # remove tests and test data
+    find $out -name tests -type d -exec rm -rf '{}' +
+    rm $out/google-cloud-sdk/platform/gsutil/gslib/commands/test.py
+
+    # compact all the JSON
+    find $out -name \*.json | while read path; do
+      jq -c . $path > $path.min
+      mv $path.min $path
+    done
   '';
 
   meta = with stdenv.lib; {

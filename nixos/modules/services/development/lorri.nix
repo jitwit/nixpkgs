@@ -32,7 +32,7 @@ in {
       description = "Lorri Daemon";
       requires = [ "lorri.socket" ];
       after = [ "lorri.socket" ];
-      path = with pkgs; [ config.nix.package gnutar gzip ];
+      path = with pkgs; [ config.nix.package git gnutar gzip ];
       serviceConfig = {
         ExecStart = "${pkgs.lorri}/bin/lorri daemon";
         PrivateTmp = true;
@@ -41,5 +41,7 @@ in {
         Restart = "on-failure";
       };
     };
+
+    environment.systemPackages = [ pkgs.lorri ];
   };
 }

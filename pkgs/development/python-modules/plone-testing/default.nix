@@ -8,11 +8,11 @@
 
 buildPythonPackage rec {
   pname = "plone.testing";
-  version = "7.0.2";
+  version = "8.0.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "2533c48b7bd54ff19da2b4f0c3ccd0a8878c46f03fadbf5f933baaf749d17690";
+    sha256 = "e079c87f821cf2e411826940e65577a88e08827cf9a2b771070f2917a439b642";
   };
 
   propagatedBuildInputs = [ six setuptools zope_testing ];
@@ -22,7 +22,7 @@ buildPythonPackage rec {
 
   meta = {
     description = "Testing infrastructure for Zope and Plone projects";
-    homepage = https://github.com/plone/plone.testing;
+    homepage = "https://github.com/plone/plone.testing";
     license = lib.licenses.bsd3;
   };
 }

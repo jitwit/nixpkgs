@@ -2,7 +2,7 @@
 
 buildPythonPackage rec {
   pname = "bumps";
-  version = "0.7.13";
+  version = "0.7.16";
 
   propagatedBuildInputs = [six];
 
@@ -12,11 +12,11 @@ buildPythonPackage rec {
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "fdcf335b800d892edfdbc87fdd539cb45166d8667edbec3dfbb1a3b5c3a35547";
+    sha256 = "3594452487b8404f1efaace9b70aefaeb345fa44dd74349f7829a61161d2f69a";
   };
 
   meta = with stdenv.lib; {
-    homepage = http://www.reflectometry.org/danse/software.html;
+    homepage = "http://www.reflectometry.org/danse/software.html";
     description = "Data fitting with bayesian uncertainty analysis";
     maintainers = with maintainers; [ rprospero ];
     license = licenses.publicDomain;

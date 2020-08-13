@@ -8,11 +8,11 @@ wsl_stub = writeShellScriptBin "wsl" "true";
 
 in buildPythonPackage rec {
   pname = "tasklib";
-  version = "1.2.1";
+  version = "2.1.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "3964fb7e87f86dc5e2708addb67e69d0932534991991b6bae2e37a0c2059273f";
+    sha256 = "e2cfe5073b9d30c564e6c547fdb0f45eb66da5d4d138c20fb87d549315892f2c";
   };
 
   propagatedBuildInputs = [
@@ -27,7 +27,7 @@ in buildPythonPackage rec {
   ];
 
   meta = with lib; {
-    homepage = https://github.com/robgolding/tasklib;
+    homepage = "https://github.com/robgolding/tasklib";
     description = "A library for interacting with taskwarrior databases";
     maintainers = with maintainers; [ arcnmx ];
     platforms = platforms.all;

@@ -5,14 +5,14 @@
 
 buildPythonPackage rec {
   pname = "pywbem";
-  version = "0.14.6";
+  version = "0.17.4";
 
   # Support added in master https://github.com/pywbem/pywbem/commit/b2f2f1a151a30355bbc6652dca69a7b30bfe941e awaiting release
   disabled = isPy37;
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "5ed6ac486a0a363848f2091a49ddc1c4e0871c6feb71766cc0e266e9c6fd084f";
+    sha256 = "5b54b65a5434bb16432415743c0d154feee0c6d7a8a2fee208719c67d6d24c97";
   };
 
   propagatedBuildInputs = [
@@ -50,7 +50,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Support for the WBEM standard for systems management";
-    homepage = https://pywbem.github.io;
+    homepage = "https://pywbem.github.io";
     license = licenses.lgpl21Plus;
     maintainers = with maintainers; [ peterhoeg ];
   };

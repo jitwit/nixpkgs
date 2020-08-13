@@ -4,11 +4,11 @@
 }:
 buildPythonPackage rec {
   pname = "autobahn";
-  version = "19.10.1";
+  version = "20.4.3";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "734385b00547448b3f30a752cbfd2900d15924d77dc4a1699b8bce1ea8899f39";
+    sha256 = "c6fe745d52ba9f9eecf791cd31f558df42aebfc4f9ee558a8f1d18c707e1ae1f";
   };
 
   propagatedBuildInputs = [ six txaio twisted zope_interface cffi cryptography pynacl ] ++

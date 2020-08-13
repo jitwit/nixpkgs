@@ -4,13 +4,13 @@ with python3Packages;
 
 buildPythonApplication rec {
   pname = "reuse";
-  version = "0.5.2";
+  version = "0.11.1";
 
   src = fetchFromGitHub {
     owner = "fsfe";
     repo = "reuse-tool";
     rev = "v${version}";
-    sha256 = "17qvsa2qnm767yv7x0v626np0kiyqpb0al7sjqmccarq2wnw8w90";
+    sha256 = "0wkk107s0bpvbknapns0qdzf8csrzc2j6gliy6pa8z208fcfzyy3";
   };
 
   propagatedBuildInputs = [
@@ -21,6 +21,7 @@ buildPythonApplication rec {
     license-expression
     requests
     setuptools
+    setuptools_scm
   ];
 
   checkInputs = [ pytest ];

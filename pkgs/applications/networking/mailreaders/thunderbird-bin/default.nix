@@ -1,5 +1,4 @@
 { stdenv, fetchurl, config, makeWrapper
-, gconf
 , alsaLib
 , at-spi2-atk
 , atk
@@ -13,8 +12,6 @@
 , gdk-pixbuf
 , glib
 , glibc
-, gst-plugins-base
-, gstreamer
 , gtk2
 , gtk3
 , kerberos
@@ -30,11 +27,9 @@
 , libXrender
 , libXt
 , libxcb
-, libcanberra-gtk2
-, libgnome
-, libgnomeui
+, libcanberra
 , gnome3
-, libGLU_combined
+, libGLU, libGL
 , nspr
 , nss
 , pango
@@ -75,14 +70,13 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/${version}/${source.arch}/${source.locale}/thunderbird-${version}.tar.bz2";
-    inherit (source) sha512;
+    inherit (source) sha256;
   };
 
   phases = "unpackPhase installPhase";
 
   libPath = stdenv.lib.makeLibraryPath
     [ stdenv.cc.cc
-      gconf
       alsaLib
       at-spi2-atk
       atk
@@ -96,8 +90,6 @@ stdenv.mkDerivation {
       gdk-pixbuf
       glib
       glibc
-      gst-plugins-base
-      gstreamer
       gtk2
       gtk3
       kerberos
@@ -113,10 +105,8 @@ stdenv.mkDerivation {
       libXrender
       libXt
       libxcb
-      libcanberra-gtk2
-      libgnome
-      libgnomeui
-      libGLU_combined
+      libcanberra
+      libGLU libGL
       nspr
       nss
       pango
@@ -180,12 +170,12 @@ stdenv.mkDerivation {
   };
   meta = with stdenv.lib; {
     description = "Mozilla Thunderbird, a full-featured email client (binary package)";
-    homepage = http://www.mozilla.org/thunderbird/;
+    homepage = "http://www.mozilla.org/thunderbird/";
     license = {
       free = false;
-      url = http://www.mozilla.org/en-US/foundation/trademarks/policy/;
+      url = "http://www.mozilla.org/en-US/foundation/trademarks/policy/";
     };
-    maintainers = with stdenv.lib.maintainers; [ fuuzetsu ];
+    maintainers = with stdenv.lib.maintainers; [ ];
     platforms = platforms.linux;
   };
 }

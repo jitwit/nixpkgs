@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   pname = "BSEQuencer";
-  version = "0.4";
+  version = "1.6.0";
 
   src = fetchFromGitHub {
     owner = "sjaehn";
     repo = pname;
-    rev = "v${version}";
-    sha256 = "0c3bm2z6z2bjjv1cy50383zr81h99rcb2frmxad0r7lhi27mjyqn";
+    rev = "${version}";
+    sha256 = "0w21kzq695xy4i1r6xvvh7sad5m0rlmdgc7ykmrlzfsm1252dz80";
   };
 
   nativeBuildInputs = [ pkgconfig ];
@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   installFlags = [ "PREFIX=$(out)" ];
 
   meta = with stdenv.lib; {
-    homepage = https://github.com/sjaehn/BSEQuencer;
+    homepage = "https://github.com/sjaehn/BSEQuencer";
     description = "Multi channel MIDI step sequencer LV2 plugin";
     maintainers = [ maintainers.magnetophon ];
     platforms = platforms.linux;

@@ -1,20 +1,22 @@
 { lib, buildPythonPackage, fetchPypi, pythonOlder, isPy27
-, google_auth, protobuf, googleapis_common_protos, requests, setuptools, grpcio, futures, mock }:
+, google_auth, protobuf, googleapis_common_protos, requests, setuptools, grpcio
+, mock
+}:
 
 buildPythonPackage rec {
   pname = "google-api-core";
-  version = "1.14.3";
+  version = "1.20.1";
   disabled = isPy27; # google namespace no longer works on python2
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "df8adc4b97f5ab4328a0e745bee77877cf4a7d4601cb1cd5959d2bbf8fba57aa";
+    sha256 = "6b757736bbc699db858794e9b71e2bbf17996075773a40551ef5e6b0fad2a2f9";
   };
 
   propagatedBuildInputs = [
     googleapis_common_protos protobuf
     google_auth requests setuptools grpcio
-  ] ++ lib.optional (pythonOlder "3.2") futures;
+  ];
 
   # requires nox
   doCheck = false;
@@ -27,9 +29,14 @@ buildPythonPackage rec {
   ];
 
   meta = with lib; {
-    description = "This library is not meant to stand-alone. Instead it defines common helpers used by all Google API clients.";
-    homepage = "https://github.com/GoogleCloudPlatform/google-cloud-python";
+    description = "Core Library for Google Client Libraries";
+    longDescription = ''
+      This library is not meant to stand-alone. Instead it defines common
+      helpers used by all Google API clients.
+    '';
+    homepage = "https://github.com/googleapis/python-api-core";
+    changelog = "https://github.com/googleapis/python-api-core/blob/v${version}/CHANGELOG.md";
     license = licenses.asl20;
-    maintainers = with maintainers; [ vanschelven ];
+    maintainers = with maintainers; [ ];
   };
 }

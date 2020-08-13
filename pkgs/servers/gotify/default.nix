@@ -10,16 +10,20 @@
 
 buildGoModule rec {
   pname = "gotify-server";
-  version = "2.0.10";
+  # should be update just like all other files imported like that via the
+  # `update.sh` script.
+  version = import ./version.nix;
 
   src = fetchFromGitHub {
     owner = "gotify";
     repo = "server";
     rev = "v${version}";
-    sha256 = "0f7y6gkxikdfjhdxplkv494ss2b0fqmibd2kl9nifabggfz5gjal";
+    sha256 = import ./source-sha.nix;
   };
 
-  modSha256 = "19mghbs1jasb7vxdw13mmwsbk5sfg3y2vvddr73c82lq0f8g2iha";
+  vendorSha256 = import ./vendor-sha.nix;
+
+  doCheck = false;
 
   postPatch = ''
     substituteInPlace app.go \
@@ -35,6 +39,10 @@ buildGoModule rec {
   preBuild = ''
     cp -r ${ui}/libexec/gotify-ui/deps/gotify-ui/build ui/build && packr
   '';
+
+  passthru = {
+    updateScript = ./update.sh;
+  };
 
   # Otherwise, all other subpackages are built as well and from some reason,
   # produce binaries which panic when executed and are not interesting at all

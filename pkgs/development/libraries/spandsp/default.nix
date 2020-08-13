@@ -11,7 +11,8 @@ stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [audiofile libtiff];
   meta = {
-    homepage = http://www.creytiv.com/baresip.html;
+    description = "A portable and modular SIP User-Agent with audio and video support";
+    homepage = "http://www.creytiv.com/baresip.html";
     platforms = with stdenv.lib.platforms; linux;
     maintainers = with stdenv.lib.maintainers; [raskin];
     license = stdenv.lib.licenses.gpl2;

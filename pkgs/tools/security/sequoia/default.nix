@@ -9,16 +9,16 @@ assert pythonSupport -> pythonPackages != null;
 
 rustPlatform.buildRustPackage rec {
   pname = "sequoia";
-  version = "0.10.0";
+  version = "0.17.0";
 
   src = fetchFromGitLab {
     owner = "sequoia-pgp";
     repo = pname;
     rev = "v${version}";
-    sha256 = "0gvczghyik56jlnb8cz7jg2l3nbm519gf19g7l5blxci3009v23d";
+    sha256 = "1rf9q67qmjfkgy6r3mz1h9ibfmc04r4j8nzacqv2l75x4mwvf6xb";
   };
 
-  cargoSha256 = "0dk9sjcbmygbdpwqnah5krli1p9j5hahgiqrca9c0kfpfiwgx62q";
+  cargoSha256 = "074bbr7dfk8cqdarrjy4sm37f5jmv2l5gwwh3zcmy2wrfg7vi1h6";
 
   nativeBuildInputs = [
     pkgconfig
@@ -28,6 +28,7 @@ rustPlatform.buildRustPackage rec {
     llvmPackages.libclang
     llvmPackages.clang
     ensureNewerSourcesForZipFilesHook
+    capnproto
   ] ++
     lib.optionals pythonSupport [ pythonPackages.setuptools ]
   ;
@@ -41,9 +42,7 @@ rustPlatform.buildRustPackage rec {
     openssl
     sqlite
     nettle
-    capnproto
-  ]
-    ++ lib.optionals pythonSupport [ pythonPackages.python pythonPackages.cffi ]
+  ] ++ lib.optionals pythonSupport [ pythonPackages.python pythonPackages.cffi ]
     ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ]
   ;
 
@@ -56,6 +55,10 @@ rustPlatform.buildRustPackage rec {
   ];
 
   LIBCLANG_PATH = "${llvmPackages.libclang}/lib";
+
+  # Please check if this is still needed when updating.
+  # Exlude tests for sequoia-store, they often error with 'Too many open files' Hydra.
+  CARGO_TEST_ARGS = " --all --exclude sequoia-store";
 
   postPatch = ''
     # otherwise, the check fails because we delete the `.git` in the unpack phase
@@ -87,6 +90,6 @@ rustPlatform.buildRustPackage rec {
     license = licenses.gpl3;
     maintainers = with maintainers; [ minijackson doronbehar ];
     platforms = platforms.all;
-    broken = true;
+    broken = stdenv.targetPlatform.isDarwin;
   };
 }

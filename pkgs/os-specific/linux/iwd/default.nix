@@ -7,18 +7,21 @@
 , coreutils
 , docutils
 , readline
+, openssl
 , python3Packages
 }:
 
 stdenv.mkDerivation rec {
   pname = "iwd";
-  version = "0.22";
+  version = "1.8";
 
   src = fetchgit {
-    url = https://git.kernel.org/pub/scm/network/wireless/iwd.git;
+    url = "https://git.kernel.org/pub/scm/network/wireless/iwd.git";
     rev = version;
-    sha256 = "0mjc08ayq2k7sinqanrlm97dn88dxkqkyk2vqqcx1nqjvwvbpbsp";
+    sha256 = "0ds8nhbnkhxzhnnsi7vj3y2v8wq0nxqbmidhiac7mpxgjkc684gf";
   };
+
+  outputs = [ "out" "man" ];
 
   nativeBuildInputs = [
     autoreconfHook
@@ -33,6 +36,8 @@ stdenv.mkDerivation rec {
     readline
   ];
 
+  checkInputs = [ openssl ];
+
   pythonPath = [
     python3Packages.dbus-python
     python3Packages.pygobject3
@@ -46,11 +51,14 @@ stdenv.mkDerivation rec {
     "--with-dbus-datadir=${placeholder "out"}/share/"
     "--with-systemd-modloaddir=${placeholder "out"}/etc/modules-load.d/" # maybe
     "--with-systemd-unitdir=${placeholder "out"}/lib/systemd/system/"
+    "--with-systemd-networkdir=${placeholder "out"}/lib/systemd/network/"
   ];
 
   postUnpack = ''
     patchShebangs .
   '';
+
+  doCheck = true;
 
   postInstall = ''
     cp -a test/* $out/bin/
@@ -73,10 +81,10 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   meta = with stdenv.lib; {
-    homepage = https://git.kernel.org/pub/scm/network/wireless/iwd.git;
+    homepage = "https://git.kernel.org/pub/scm/network/wireless/iwd.git";
     description = "Wireless daemon for Linux";
     license = licenses.lgpl21;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ dtzWill ];
+    maintainers = with maintainers; [ dtzWill fpletz ];
   };
 }

@@ -6,21 +6,21 @@ stdenv.mkDerivation {
 
   src = fetchgit {
     url = "https://github.com/jitwit/chez-euler.git";
-    rev = "042bdf848338bc99f8bc62347d221013f3bd5f45";
-    sha256 = "0mrq4xmrf5np2fzfvjjylj90gzzlbnn6wjdx5nmncjb3zni81xhm";
+    rev = "d83c2ea6df28a28c8f2b430afeeb6c61e3e26c1a";
+    sha256 = "113f7zz3z448r4xi1gjzd784xvadyz2h6zpy6wkl2mfcdk6iph8c";
   };
 
   buildInputs = [ chez chez-hemlock ];
 
+  checkPhase = "make check";
+
   buildPhase = ''
-    export CHEZSCHEMELIBDIRS=${chez-hemlock}/lib/csv9.5-site/
-    make prefix=$out chez=${chez}/bin/scheme
+    export CHEZSCHEMELIBDIRS=${chez-hemlock}/lib/csv-site/
+    make chez=${chez}/bin/scheme
   '';
 
-  installPhase = ''
-    make install prefix=$out chez=${chez}/bin/scheme
-  '';
-
+  installPhase = "make install out=$out/lib/csv-site";
+  
   meta = {
     description = "Various numerical procedures written while solving project euler problems";
     homepage = https://github.com/jitwit/chez-euler/;

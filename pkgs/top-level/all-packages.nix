@@ -8326,6 +8326,8 @@ in
 
   chez-packrat = callPackage ../development/chez-modules/chez-packrat { };
 
+  chez-cobble = callPackage ../development/chez-modules/chez-cobble { };
+
   clang = llvmPackages.clang;
   clang-manpages = llvmPackages.clang-manpages;
 
